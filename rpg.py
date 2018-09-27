@@ -4,6 +4,9 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 2. do nothing - in which case the goblin will attack him anyway
 3. flee
 """
+from time import sleep
+from random import random
+
 class Character:
     def __init__(self, name, health, power):
         self.name = name
@@ -24,6 +27,12 @@ class Hero(Character):
         self.name = name
         self.health = 10
         self.power = 5
+    def attack(self, enemy):
+        if random() > 0.8:
+            enemy.health -= self.power * 2
+        else:
+            enemy.health -= self.power
+        print("The %s does %d damage to the %s." % (self.name, self.power, enemy.name))
 
 class Goblin(Character):
     def __init__(self, name):
