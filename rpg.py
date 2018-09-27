@@ -15,10 +15,13 @@ class Character:
     def alive(self):
         return self.health > 0
     def attack(self, enemy):
-        enemy.health -= self.power
-        print("The %s does %d damage to the %s." % (self.name, self.power, enemy.name))
+        attack_power = self.power
+        enemy.defend(attack_power)
         if not enemy.alive():
             print("The %s is dead." % enemy.name)
+    def defend(self, enemy, attack_power):
+        self.health -= attack_power
+        print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
     def print_status(self):
         print("The %s has %d health and %d power." % (self.name, self.health, self.power))
 
@@ -27,14 +30,20 @@ class Hero(Character):
         self.name = name
         self.health = 10
         self.power = 5
+        self.armor = 0
         self.evade = 0
     # make the hero generate double damage points during an attack with a probabilty of 20%
     def attack(self, enemy):
         if random() > 0.8:
-            enemy.health -= self.power * 2
+            attack_power = self.power * 2
         else:
-            enemy.health -= self.power
-        print("The %s does %d damage to the %s." % (self.name, self.power, enemy.name))
+            attack_power = self.power
+        enemy.defend(self, attack_power)
+        if not enemy.alive():
+            print("The %s is dead." % enemy.name)
+    def defend(self, enemy, attack_power):
+        self.health -= attack_power - self.armor
+        print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
 class HumanShield(Character):
     def __init__(self, name):
@@ -111,14 +120,15 @@ class SuperTonic:
         self.health_restore = 10
 
 class Armor:
-    pass
+    def __init__(self):
+        pass
 
 class Evade:
     pass
 
 class Store:
     def __init__(self):
-        self.items = []
+        self.items = [SuperTonic()]
 
 def main():
     hero = Hero("Hero")
