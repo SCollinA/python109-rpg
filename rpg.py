@@ -27,6 +27,7 @@ class Hero(Character):
         self.name = name
         self.health = 10
         self.power = 5
+        self.evade = 0
     # make the hero generate double damage points during an attack with a probabilty of 20%
     def attack(self, enemy):
         if random() > 0.8:
@@ -90,7 +91,6 @@ class Zombie(Character):
         print("brains...")
         self.health = 4
 
-
 # make a character called Shadow who has only 1 starting health 
 # but will only take damage about once out of every ten times he is attacked.
 class Shadow(Character):
@@ -103,6 +103,22 @@ class Shadow(Character):
         if random() > .1:
             self.health = 1
         return self.health > 0
+
+
+# Store items
+class SuperTonic:
+    def __init__(self):
+        self.health_restore = 10
+
+class Armor:
+    pass
+
+class Evade:
+    pass
+
+class Store:
+    def __init__(self):
+        self.items = []
 
 def main():
     hero = Hero("Hero")
