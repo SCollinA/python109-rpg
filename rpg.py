@@ -27,6 +27,7 @@ class Hero(Character):
         self.name = name
         self.health = 10
         self.power = 5
+    # make the hero generate double damage points during an attack with a probabilty of 20%
     def attack(self, enemy):
         if random() > 0.8:
             enemy.health -= self.power * 2
@@ -40,6 +41,19 @@ class Goblin(Character):
         self.health = 6
         self.power = 2
 
+class Wizard(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 6
+        self.power = 2
+    def attack(self, enemy):
+        # 10% of time Wizard attack is devastating
+        if random() > .9:
+            enemy.health -= self.power * 3
+        else:
+            enemy.health -= self.power
+
+# make a Zombie character that doesn't die even if his health is below zero
 class Zombie(Character):
     def __init__(self, name):
         self.name = name
@@ -53,6 +67,8 @@ class Zombie(Character):
         print("brains...")
         self.health = 4
 
+# make a new character called Medic that can sometimes recuperate 2 health points 
+# after being attacked with a probability of 20%
 class Medic(Character):
     def __init__(self, name):
         self.name = name
@@ -64,6 +80,25 @@ class Medic(Character):
         return self.health > 0
     def recuperate(self):
         self.health += 2
+
+# make a character called Shadow who has only 1 starting health 
+# but will only take damage about once out of every ten times he is attacked.
+class Shadow(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 1
+        self.power = 2
+    def alive(self):
+        if random() > .1:
+            self.health = 1
+        return self.health > 0
+
+class HumanShield(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 20
+        self.power = 1
+
 
 def main():
     hero = Hero("Hero")
