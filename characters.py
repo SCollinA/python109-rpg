@@ -1,3 +1,5 @@
+from random import random
+
 class Character:
     def __init__(self, name, health, power):
         self.name = name
