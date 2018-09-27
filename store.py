@@ -27,6 +27,27 @@ class Strong(StoreItem):
         self.attack_boost = 2
         self.cost = 5
 
+class Swap(StoreItem):
+    pass
+
 class Store:
     def __init__(self):
-        self.items = [SuperTonic(), Armor(), Evade(), Hyper(), Strong()]
+        self.items = [SuperTonic, Armor, Evade, Hyper, Strong, Swap]
+    def go_shopping(self, hero):
+        while True:
+            print("=====================")
+            print("Welcome to the store!")
+            print("=====================")
+            print("You have %d coins." % hero.coins)
+            print("What do you want to do?")
+            for i in range(len(self.items)):
+                item = self.items[i]
+                print("%d. buy %s (%d)" % (i + 1, item.name, item.cost))
+                print("%d. leave" % len(self.items))
+            user_input = int(input("> "))
+            if user_input == len(self.items):
+                break
+            else:
+                ItemToBuy = self.items[user_input - 1]
+                item = ItemToBuy()
+            hero.buy(item)

@@ -59,9 +59,9 @@ class Hero(Friend):
         self.coins -= item.cost
         self.knapsack.append(item)
 
-    def sell(self, item):
-        self.coins += item.cost
-        self.knapsack.remove(item)
+    # def sell(self, item):
+    #     self.coins += item.cost
+    #     self.knapsack.remove(item)
 
 
 class HumanShield(Friend):
