@@ -13,30 +13,6 @@ class Party:
     def __init__(self):
         self.party = []
 
-# Store items
-class StoreItem:
-    pass
-
-class SuperTonic(StoreItem):
-    def __init__(self):
-        self.health_restore = 10
-
-class Armor(StoreItem):
-    def __init__(self):
-        self.armor_strength = 2
-
-class Evade(StoreItem):
-    def __init__(self):
-        self.evade_points = 2
-
-class Hyper(StoreItem):
-    def __init__(self):
-        self.turns = 1
-
-class Store:
-    def __init__(self):
-        self.items = [SuperTonic(), Armor(), Evade(), Hyper()]
-
 def main():
     hero = Hero("Hero")
     goblin = Goblin("Goblin")

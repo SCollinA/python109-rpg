@@ -1,10 +1,13 @@
 from random import random
 
 class Character:
-    def __init__(self, name, health, power):
-        self.name = name
-        self.health = health
-        self.power = power
+    def __init__(self):
+        self.name = ''
+        self.health = 6
+        self.power = 2
+        self.armor = 0
+        self.evade = 0
+        self.coins = 5
     def alive(self):
         return self.health > 0
     def attack(self, enemy):
@@ -28,11 +31,10 @@ class Friend(Character):
 
 class Hero(Friend):
     def __init__(self, name):
+        super.__init__()
         self.name = name
         self.health = 10
         self.power = 5
-        self.armor = 0
-        self.evade = 0
         self.coins = 20
         self.knapsack = []
     # make the hero generate double damage points during an attack with a probabilty of 20%
@@ -44,6 +46,7 @@ class Hero(Friend):
         enemy.defend(self, attack_power)
         if not enemy.alive():
             print("The %s is dead." % enemy.name)
+
     def defend(self, enemy, attack_power):
         attack_power -= self.armor
         evade_probability = 1 - (1 / (1 + self.evade))
@@ -51,9 +54,19 @@ class Hero(Friend):
             attack_power = 0
         self.health -= attack_power
         print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
+    
+    def buy(self, item):
+        self.coins -= item.cost
+        self.knapsack.append(item)
+
+    def sell(self, item):
+        self.coins += item.cost
+        self.knapsack.remove(item)
+
 
 class HumanShield(Friend):
     def __init__(self, name):
+        super.__init__()
         self.name = name
         self.health = 20
         self.power = 1
@@ -62,43 +75,47 @@ class HumanShield(Friend):
 # after being attacked with a probability of 20%
 class Medic(Friend):
     def __init__(self, name):
+        super.__init__()
         self.name = name
-        self.health = 10
-        self.power = 5
-    def alive(self):
+    def defend(self, enemy, attack_power):
+        self.health -= attack_power
         if random() > .8:
-            self.recuperate()
-        return self.health > 0
-    def recuperate(self):
-        self.health += 2
+            self.heal(self)
+        print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
+    def heal(self, target):
+        target.health += 2
 
 class Goblin(Enemy):
-    def __init__(self, name):
-        self.name = name
-        self.health = 6
-        self.power = 2
-        self.bounty = 5
+    def attack(self, enemy):
+        if self.steal():
+            enemy.coins -= 5
+            self.coins += 5
+        enemy.defend(self, self.power)
+        if not enemy.alive():
+            print("The %s is dead." % enemy.name)
+    def steal(self):
+        return random() > .5
 
 class Wizard(Enemy):
     def __init__(self, name):
+        super.__init__()
         self.name = name
-        self.health = 6
-        self.power = 2
-        self.bounty = 6
+        self.coins = 8
     def attack(self, enemy):
         # 10% of time Wizard attack is devastating
-        if random() > .9:
+        if self.cast_spell():
             enemy.health -= self.power * 3
-        else:
-            enemy.health -= self.power
+    def cast_spell(self):
+        return random() > .9
 
 # make a Zombie character that doesn't die even if his health is below zero
 class Zombie(Enemy):
     def __init__(self, name):
+        super.__init__()
         self.name = name
         self.health = 4
         self.power = 1
-        self.bounty = 10000
+        self.coins = 10000
     def alive(self):
         if self.health < 4:
             self.eat_brains()
@@ -111,10 +128,10 @@ class Zombie(Enemy):
 # but will only take damage about once out of every ten times he is attacked.
 class Shadow(Enemy):
     def __init__(self, name):
+        super.__init__()
         self.name = name
         self.health = 1
-        self.power = 2
-        self.bounty = 2
+        self.coins = 2
     def defend(self, enemy, attack_power):
         if random() > .1:
             attack_power = 0
