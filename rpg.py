@@ -42,7 +42,11 @@ class Hero(Character):
         if not enemy.alive():
             print("The %s is dead." % enemy.name)
     def defend(self, enemy, attack_power):
-        self.health -= attack_power - self.armor
+        attack_power -= self.armor
+        evade_probability = 1 - (1 / (1 + self.evade))
+        if random() > evade_probability:
+            attack_power = 0
+        self.health -= attack_power
         print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
 class HumanShield(Character):
@@ -108,11 +112,11 @@ class Shadow(Character):
         self.health = 1
         self.power = 2
         self.bounty = 2
-    def alive(self):
+    def defend(self, enemy, attack_power):
         if random() > .1:
-            self.health = 1
-        return self.health > 0
-
+            attack_power = 0
+        self.health -= attack_power
+        print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
 # Store items
 class SuperTonic:
@@ -121,14 +125,15 @@ class SuperTonic:
 
 class Armor:
     def __init__(self):
-        pass
+        self.armor_strength = 2
 
 class Evade:
-    pass
+    def __init__(self):
+        self.evade_points = 2
 
 class Store:
     def __init__(self):
-        self.items = [SuperTonic()]
+        self.items = [SuperTonic(), Armor()]
 
 def main():
     hero = Hero("Hero")
