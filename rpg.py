@@ -12,21 +12,31 @@ class Hero:
     def attack(self, enemy):
         enemy.health -= self.power
         # goblin.health -= hero.power
-            # goblin_health -= hero_power
-            print("You do %d damage to the %s." % (hero.power, enemy.name))
-            # print("You do %d damage to the goblin." % hero.power)
-            # print("You do %d damage to the goblin." % hero_power)
-            if enemy.health <= 0:
-            # if goblin.health <= 0:
-            # if goblin_health <= 0:
-                print("The %s is dead." % enemy.name)
-                # print("The goblin is dead.")
+        # goblin_health -= hero_power
+        print("You do %d damage to the %s." % (hero.power, enemy.name))
+        # print("You do %d damage to the goblin." % hero.power)
+        # print("You do %d damage to the goblin." % hero_power)
+        if enemy.health <= 0:
+        # if goblin.health <= 0:
+        # if goblin_health <= 0:
+            print("The %s is dead." % enemy.name)
+            # print("The goblin is dead.")
 
 class Goblin:
     def __init__(self, health, power):
         self.name = "goblin"
         self.health = health
         self.power = power
+    def attack(self, enemy):
+        enemy.health -= self.power
+        # hero.health -= goblin.power
+        # hero_health -= goblin_power
+        print("The goblin does %d damage to you." % self.power)
+        # print("The goblin does %d damage to you." % goblin.power)
+        # print("The goblin does %d damage to you." % goblin_power)
+        if enemy.health <= 0:
+        # if hero_health <= 0:
+            print("You are dead.")
 
 def main():
     hero = Hero(10, 5)
@@ -50,7 +60,7 @@ def main():
         user_input = input()
         if user_input == "1":
             # Hero attacks goblin
-            
+            hero.attack(goblin)
         elif user_input == "2":
             pass
         elif user_input == "3":
@@ -61,11 +71,5 @@ def main():
         if goblin.health > 0:
         # if goblin_health > 0:
             # Goblin attacks hero
-            hero.health -= goblin.power
-            # hero_health -= goblin_power
-            print("The goblin does %d damage to you." % goblin.power)
-            # print("The goblin does %d damage to you." % goblin_power)
-            if hero.health <= 0:
-            # if hero_health <= 0:
-                print("You are dead.")
+            
 main()
