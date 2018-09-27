@@ -14,7 +14,7 @@ class Character:
     def attack(self, enemy):
         enemy.health -= self.power
         print("The %s does %d damage to the %s." % (self.name, self.power, enemy.name))
-        if enemy.health <= 0:
+        if not enemy.alive():
             print("The %s is dead." % enemy.name)
     def print_status(self):
         print("The %s has %d health and %d power." % (self.name, self.health, self.power))
@@ -37,11 +37,12 @@ class Zombie(Character):
         self.health = 4
         self.power = 1
     def alive(self):
-        if self.health < 0:
+        if self.health < 4:
             self.eat_brains()
         return True
     def eat_brains(self):
-        self.health = 6
+        print("brains...")
+        self.health = 4
 
 def main():
     hero = Hero("Hero")
@@ -54,7 +55,7 @@ def main():
         print("1. fight %s" % goblin.name)
         print("2. do nothing")
         print("3. flee")
-        print("> ",)
+        print("> ", end="")
         user_input = input()
         if user_input == "1":
             # Hero attacks goblin
@@ -70,7 +71,7 @@ def main():
             # Goblin attacks hero
             goblin.attack(hero)
     if hero.alive():
-        zombie = Zombie("Fido")
+        zombie = Zombie("Zombie")
         while zombie.alive() and hero.alive():
             hero.print_status()
             zombie.print_status()
@@ -79,7 +80,7 @@ def main():
             print("1. fight %s" % zombie.name)
             print("2. do nothing")
             print("3. flee")
-            print("> ",)
+            print("> ", end="")
             user_input = input()
             if user_input == "1":
                 # Hero attacks goblin
