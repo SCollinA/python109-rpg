@@ -53,6 +53,18 @@ class Zombie(Character):
         print("brains...")
         self.health = 4
 
+class Medic(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 10
+        self.power = 5
+    def alive(self):
+        if random() > .8:
+            self.recuperate()
+        return self.health > 0
+    def recuperate(self):
+        self.health += 2
+
 def main():
     hero = Hero("Hero")
     goblin = Goblin("Goblin")
