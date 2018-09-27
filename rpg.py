@@ -25,7 +25,13 @@ class Character:
     def print_status(self):
         print("The %s has %d health and %d power." % (self.name, self.health, self.power))
 
-class Hero(Character):
+class Enemy(Character):
+    pass
+
+class Friend(Character):
+    pass
+
+class Hero(Friend):
     def __init__(self, name):
         self.name = name
         self.health = 10
@@ -49,7 +55,7 @@ class Hero(Character):
         self.health -= attack_power
         print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
-class HumanShield(Character):
+class HumanShield(Friend):
     def __init__(self, name):
         self.name = name
         self.health = 20
@@ -57,7 +63,7 @@ class HumanShield(Character):
 
 # make a new character called Medic that can sometimes recuperate 2 health points 
 # after being attacked with a probability of 20%
-class Medic(Character):
+class Medic(Friend):
     def __init__(self, name):
         self.name = name
         self.health = 10
@@ -69,14 +75,14 @@ class Medic(Character):
     def recuperate(self):
         self.health += 2
 
-class Goblin(Character):
+class Goblin(Enemy):
     def __init__(self, name):
         self.name = name
         self.health = 6
         self.power = 2
         self.bounty = 5
 
-class Wizard(Character):
+class Wizard(Enemy):
     def __init__(self, name):
         self.name = name
         self.health = 6
@@ -90,7 +96,7 @@ class Wizard(Character):
             enemy.health -= self.power
 
 # make a Zombie character that doesn't die even if his health is below zero
-class Zombie(Character):
+class Zombie(Enemy):
     def __init__(self, name):
         self.name = name
         self.health = 4
@@ -106,7 +112,7 @@ class Zombie(Character):
 
 # make a character called Shadow who has only 1 starting health 
 # but will only take damage about once out of every ten times he is attacked.
-class Shadow(Character):
+class Shadow(Enemy):
     def __init__(self, name):
         self.name = name
         self.health = 1
@@ -118,22 +124,34 @@ class Shadow(Character):
         self.health -= attack_power
         print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
+# parties
+class Party:
+    def __init__(self):
+        self.party = []
+
 # Store items
-class SuperTonic:
+class StoreItem:
+    pass
+
+class SuperTonic(StoreItem):
     def __init__(self):
         self.health_restore = 10
 
-class Armor:
+class Armor(StoreItem):
     def __init__(self):
         self.armor_strength = 2
 
-class Evade:
+class Evade(StoreItem):
     def __init__(self):
         self.evade_points = 2
 
+class Hyper(StoreItem):
+    def __init__(self):
+        self.turns = 1
+
 class Store:
     def __init__(self):
-        self.items = [SuperTonic(), Armor()]
+        self.items = [SuperTonic(), Armor(), Evade(), Hyper()]
 
 def main():
     hero = Hero("Hero")
