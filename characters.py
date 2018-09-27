@@ -1,4 +1,4 @@
-from random import random
+from random import random, randint
 
 class Character:
     def __init__(self):
@@ -24,10 +24,49 @@ class Character:
 class Enemy(Character):
     def is_friend(self):
         return False
+    def choose_target(self, hero_party):
+        alive_friends = []
+        for friend in hero_party:
+            if friend.alive():
+                alive_friends.append(friend)
+        return alive_friends[randint(0, len(alive_friends) - 1)]
 
 class Friend(Character):
+    # only friends have knapsack that they share
+    knapsack = []
     def is_friend(self):
         return True
+    def choose_target(self, enemy_party):
+        pass
+    def choose_action(self, target):
+        while True:
+            print("What do you want to do?")
+            print("1. attack")
+            print("2. use item")
+            print("3. do nothing")
+            print("4. flee")
+            print("> ", end="")
+            user_input = input()
+            valid_input = ['1', '2', '3', '4']
+            if user_input in valid_input:
+                return user_input
+            else:
+                print("Invalid input %r" % user_input)
+    def choose_item(self):
+        while True:
+            print("Which item would you like to use?")
+            for i in range(len(Friend.knapsack)):
+                print("%d. %s" % (i + 1, Friend.knapsack[i]))
+            user_input = input("> ")
+            try:
+                choice = int(user_input)
+            except:
+                pass
+            if choice > 0 and choice < len(Friend.knapsack):
+                return Friend.knapsack[choice]
+    def use_item(self, item, target):
+        item.apply(target)
+
 
 class Hero(Friend):
     def __init__(self, name):
@@ -36,7 +75,6 @@ class Hero(Friend):
         self.health = 10
         self.power = 5
         self.coins = 20
-        self.knapsack = []
     # make the hero generate double damage points during an attack with a probabilty of 20%
     def attack(self, enemy):
         if random() > 0.8:

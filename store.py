@@ -33,7 +33,7 @@ class Evade(StoreItem):
         print("%s's evade increased to %d." % (target.name, target.evade))
 
 class Swap(StoreItem):
-    def apply(self, target, other_target):
+    def apply(self, target):
         pass
 
 # class Hyper(StoreItem):
