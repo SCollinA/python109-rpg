@@ -4,16 +4,15 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 2. do nothing - in which case the goblin will attack him anyway
 3. flee
 """
-class Hero:
-    def __init__(self, health, power):
-        self.name = "hero"
-        self.health = health
-        self.power = power
+class Character:
+    def alive(self):
+        if self.health > 0:
+            return True
     def attack(self, enemy):
         enemy.health -= self.power
         # goblin.health -= hero.power
         # goblin_health -= hero_power
-        print("You do %d damage to the %s." % (self.power, enemy.name))
+        print("The %s does %d damage to the %s." % (self.name, self.power, enemy.name))
         # print("You do %d damage to the goblin." % hero.power)
         # print("You do %d damage to the goblin." % hero_power)
         if enemy.health <= 0:
@@ -21,41 +20,27 @@ class Hero:
         # if goblin_health <= 0:
             print("The %s is dead." % enemy.name)
             # print("The goblin is dead.")
-    def alive(self):
-        if self.health > 0:
-            return True
     def print_status(self):
-        print("You have %d health and %d power." % (self.health, self.power))
+        print("The %s have %d health and %d power." % (self.name self.health, self.power))
         # print("You have %d health and %d power." % (hero.health, hero.power))
 
+class Hero(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 10
+        self.power = 5
 
-class Goblin:
-    def __init__(self, health, power):
-        self.name = "goblin"
-        self.health = health
-        self.power = power
-    def attack(self, enemy):
-        enemy.health -= self.power
-        # hero.health -= goblin.power
-        # hero_health -= goblin_power
-        print("The goblin does %d damage to you." % self.power)
-        # print("The goblin does %d damage to you." % goblin.power)
-        # print("The goblin does %d damage to you." % goblin_power)
-        if enemy.health <= 0:
-        # if hero_health <= 0:
-            print("You are dead.")
-    def alive(self):
-        if self.health > 0:
-            return True
-    def print_status(self):
-        print("The goblin has %d health and %d power." % (self.health, self.power))
-        # print("The goblin has %d health and %d power." % (goblin.health, goblin.power))
+class Goblin(Character):
+    def __init__(self, name):
+        self.name = name
+        self.health = 6
+        self.power = 2
 
 def main():
-    hero = Hero(10, 5)
+    hero = Hero("Hero")
     # hero_health = 10
     # hero_power = 5
-    goblin = Goblin(6, 2)
+    goblin = Goblin("Goblin")
     # goblin_health = 6
     # goblin_power = 2
     while goblin.alive() and hero.alive():
@@ -64,7 +49,8 @@ def main():
         hero.print_status()
         # print("You have %d health and %d power." % (hero.health, hero.power))
         # print("You have %d health and %d power." % (hero_health, hero_power))
-        print("The goblin has %d health and %d power." % (goblin.health, goblin.power))
+        goblin.print_status()
+        # print("The goblin has %d health and %d power." % (goblin.health, goblin.power))
         # print("The goblin has %d health and %d power." % (goblin_health, goblin_power))
         print()
         print("What do you want to do?")
