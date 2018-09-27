@@ -33,6 +33,7 @@ class Hero(Friend):
         self.power = 5
         self.armor = 0
         self.evade = 0
+        self.coins = 20
         self.knapsack = []
     # make the hero generate double damage points during an attack with a probabilty of 20%
     def attack(self, enemy):
