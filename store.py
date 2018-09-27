@@ -6,33 +6,44 @@ class SuperTonic(StoreItem):
     def __init__(self):
         self.health_restore = 10
         self.cost = 5
+    def apply(self, target):
+        target.health += 2
+        print("%s's health increased to %d." % (target.name, target.health))
+
+class Sword(StoreItem):
+    def __init__(self):
+        self.cost = 5
+    def apply(self, target):
+        target.power += 2
+        print("%s's power increased to %d." % (target.name, target.power))
 
 class Armor(StoreItem):
     def __init__(self):
-        self.armor_strength = 2
         self.cost = 5
+    def apply(self, target):
+        target.armor += 2
+        print("%s's power increased to %d." % (target.name, target.armor))
+
 
 class Evade(StoreItem):
     def __init__(self):
-        self.evade_points = 2
         self.cost = 5
-
-class Hyper(StoreItem):
-    def __init__(self):
-        self.turns = 1
-        self.cost = 5
-
-class Strong(StoreItem):
-    def __init__(self):
-        self.attack_boost = 2
-        self.cost = 5
+    def apply(self, target):
+        target.evade += 2
+        print("%s's evade increased to %d." % (target.name, target.evade))
 
 class Swap(StoreItem):
-    pass
+    def apply(self, target, other_target):
+        pass
+
+# class Hyper(StoreItem):
+#     def __init__(self):
+#         self.turns = 1
+#         self.cost = 5
 
 class Store:
     def __init__(self):
-        self.items = [SuperTonic, Armor, Evade, Hyper, Strong, Swap]
+        self.items = [SuperTonic, Sword, Armor, Evade, Swap]
     def go_shopping(self, hero):
         while True:
             print("=====================")
