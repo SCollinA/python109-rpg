@@ -4,14 +4,15 @@ class StoreItem:
 
 class SuperTonic(StoreItem):
     def __init__(self):
-        self.health_restore = 10
+        self.name = "SuperTonic"
         self.cost = 5
     def apply(self, target):
-        target.health += 2
+        target.health += 10
         print("%s's health increased to %d." % (target.name, target.health))
 
 class Sword(StoreItem):
     def __init__(self):
+        self.name = "Sword"
         self.cost = 5
     def apply(self, target):
         target.power += 2
@@ -19,6 +20,7 @@ class Sword(StoreItem):
 
 class Armor(StoreItem):
     def __init__(self):
+        self.name = "Armor"
         self.cost = 5
     def apply(self, target):
         target.armor += 2
@@ -27,6 +29,7 @@ class Armor(StoreItem):
 
 class Evade(StoreItem):
     def __init__(self):
+        self.name = "Evade"
         self.cost = 5
     def apply(self, target):
         target.evade += 2

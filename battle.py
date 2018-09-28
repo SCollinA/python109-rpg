@@ -8,23 +8,27 @@ class Battle:
             hero_party.print_status()
             enemy_party.print_status()
             print()
-            for friend in hero_party:
+            for friend in hero_party.party:
                 if friend.alive():
+                    print("%s's turn." % friend.name)
                     action = friend.choose_action()
-                    target = friend.choose_target(enemy_party)
                     if action == "1":
                         # attack
+                        target = friend.choose_target(hero_party, enemy_party)
                         friend.attack(target)
                     elif action == "2":
                         # choose item
                         item = friend.choose_item()
                         # use item
+                        target = friend.choose_target(hero_party, enemy_party)
                         friend.use_item(item, target)
                     elif action == "3":
                         pass
                     elif action == "4":
                         print("fleeing...")
-                        return
+                        return True
+                hero_party.print_status()
+                enemy_party.print_status()
             # if the enemy party is still standing
             if enemy_party.alive():
                 # each enemy gets a turn

@@ -12,7 +12,7 @@ class Character:
         return self.health > 0
     def attack(self, enemy):
         attack_power = self.power
-        enemy.defend(attack_power)
+        enemy.defend(self, attack_power)
         if not enemy.alive():
             print("The %s is dead." % enemy.name)
     def defend(self, enemy, attack_power):
@@ -26,7 +26,7 @@ class Enemy(Character):
         return False
     def choose_target(self, hero_party):
         alive_friends = []
-        for friend in hero_party:
+        for friend in hero_party.party:
             if friend.alive():
                 alive_friends.append(friend)
         return alive_friends[randint(0, len(alive_friends) - 1)]
@@ -36,9 +36,23 @@ class Friend(Character):
     knapsack = []
     def is_friend(self):
         return True
-    def choose_target(self, enemy_party):
-        pass
-    def choose_action(self, target):
+    def choose_target(self, hero_party, enemy_party):
+        targets = hero_party.party + enemy_party.party
+        for target in targets:
+            if not target.alive():
+                targets.remove(target)
+        while True:
+            print("Choose a target.")
+            for i in range(len(targets)):
+                print("%d. %s" % (i + 1, targets[i].name))
+            user_input = input("> ")
+            try:
+                choice = int(user_input)
+                return targets[choice - 1]
+            except:
+                pass
+            
+    def choose_action(self):
         while True:
             print("What do you want to do?")
             print("1. attack")
@@ -70,7 +84,7 @@ class Friend(Character):
 
 class Hero(Friend):
     def __init__(self, name):
-        super.__init__()
+        super().__init__()
         self.name = name
         self.health = 10
         self.power = 5
@@ -103,18 +117,18 @@ class Hero(Friend):
 
 
 class HumanShield(Friend):
-    def __init__(self, name):
-        super.__init__()
-        self.name = name
+    def __init__(self):
+        super().__init__()
+        self.name = "Brock"
         self.health = 20
         self.power = 1
 
 # make a new character called Medic that can sometimes recuperate 2 health points 
 # after being attacked with a probability of 20%
 class Medic(Friend):
-    def __init__(self, name):
-        super.__init__()
-        self.name = name
+    def __init__(self):
+        super().__init__()
+        self.name = "Medic"
     def defend(self, enemy, attack_power):
         self.health -= attack_power
         if random() > .8:
@@ -124,6 +138,9 @@ class Medic(Friend):
         target.health += 2
 
 class Goblin(Enemy):
+    def __init__(self):
+        super().__init__()
+        self.name = "Goblin"
     def attack(self, enemy):
         if self.steal():
             enemy.coins -= 5
@@ -135,9 +152,9 @@ class Goblin(Enemy):
         return random() > .5
 
 class Wizard(Enemy):
-    def __init__(self, name):
-        super.__init__()
-        self.name = name
+    def __init__(self):
+        super().__init__()
+        self.name = "Wizard"
         self.coins = 8
     def attack(self, enemy):
         # 10% of time Wizard attack is devastating
@@ -148,9 +165,9 @@ class Wizard(Enemy):
 
 # make a Zombie character that doesn't die even if his health is below zero
 class Zombie(Enemy):
-    def __init__(self, name):
-        super.__init__()
-        self.name = name
+    def __init__(self):
+        super().__init__()
+        self.name = "Zombie"
         self.health = 4
         self.power = 1
         self.coins = 10000
@@ -165,9 +182,9 @@ class Zombie(Enemy):
 # make a character called Shadow who has only 1 starting health 
 # but will only take damage about once out of every ten times he is attacked.
 class Shadow(Enemy):
-    def __init__(self, name):
-        super.__init__()
-        self.name = name
+    def __init__(self):
+        super().__init__()
+        self.name = "Shadow"
         self.health = 1
         self.coins = 2
     def defend(self, enemy, attack_power):

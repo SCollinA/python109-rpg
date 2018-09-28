@@ -16,8 +16,8 @@ shopping_engine = Store()
 print("Welcome to another land. What is your name?")
 user_name = input("> ")
 user_hero = Hero(user_name)
-medic = Medic("medic")
-brock = HumanShield("brock")
+medic = Medic()
+brock = HumanShield()
 hero_party = Party([user_hero, medic, brock])
 enemies = [Goblin, Wizard, Zombie, Shadow]
 
@@ -25,8 +25,9 @@ while Battle.battles_remaining > 0:
     enemy_party = []
     while len(enemy_party) < 3:
         enemy_party.append(choice(enemies)())
+    enemy_party = Party(enemy_party)
     print("Encountered enemy party!")
-    print("Prepare to battle a %s, %s, and %s!" % (enemy_party[0], enemy_party[1], enemy_party[2]))
+    print("Prepare to battle a %s, %s, and %s!" % (enemy_party.party[0].name, enemy_party.party[1].name, enemy_party.party[2].name))
     if not battle_engine.do_battle(hero_party, enemy_party):
         print("Game Over...")
         break
