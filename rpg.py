@@ -25,8 +25,10 @@ while Battle.battles_remaining > 0:
     enemy_party = []
     while len(enemy_party) < 3:
         enemy_party.append(choice(enemies)())
+    print("Encountered enemy party!")
+    print("Prepare to battle a %s, %s, and %s!" % (enemy_party[0], enemy_party[1], enemy_party[2]))
     if not battle_engine.do_battle(hero_party, enemy_party):
         print("Game Over...")
         break
-
+    shopping_engine.go_shopping(user_hero)
 print("You Win!")
