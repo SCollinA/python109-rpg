@@ -77,7 +77,7 @@ class Friend(Character):
             except:
                 pass
             if choice > 0 and choice < len(Friend.knapsack):
-                return Friend.knapsack[choice]
+                return Friend.knapsack[choice - 1]
     def use_item(self, item, target):
         item.apply(target)
 

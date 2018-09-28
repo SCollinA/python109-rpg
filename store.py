@@ -3,39 +3,37 @@ class StoreItem:
     pass
 
 class SuperTonic(StoreItem):
-    def __init__(self):
-        self.name = "SuperTonic"
-        self.cost = 5
+    name = "SuperTonic"
+    cost = 5
     def apply(self, target):
         target.health += 10
-        print("%s's health increased to %d." % (target.name, target.health))
+        print("%s's health increased by %d." % (target.name, target.health))
 
 class Sword(StoreItem):
-    def __init__(self):
-        self.name = "Sword"
-        self.cost = 5
+    name = "Sword"
+    cost = 5
     def apply(self, target):
         target.power += 2
-        print("%s's power increased to %d." % (target.name, target.power))
+        print("%s's power increased by %d." % (target.name, target.power))
 
 class Armor(StoreItem):
-    def __init__(self):
-        self.name = "Armor"
-        self.cost = 5
+    name = "Armor"
+    cost = 5
     def apply(self, target):
         target.armor += 2
-        print("%s's power increased to %d." % (target.name, target.armor))
+        print("%s's armor increased by %d." % (target.name, target.armor))
 
 
 class Evade(StoreItem):
-    def __init__(self):
-        self.name = "Evade"
-        self.cost = 5
+    name = "Evade"
+    cost = 5
     def apply(self, target):
         target.evade += 2
-        print("%s's evade increased to %d." % (target.name, target.evade))
+        print("%s's evade increased by %d." % (target.name, target.evade))
 
 class Swap(StoreItem):
+    name = "Swap"
+    cost = 5
     def apply(self, target):
         pass
 
@@ -46,7 +44,7 @@ class Swap(StoreItem):
 
 class Store:
     def __init__(self):
-        self.items = [SuperTonic, Sword, Armor, Evade, Swap]
+        self.items = [SuperTonic, Sword, Armor, Evade]
     def go_shopping(self, hero):
         while True:
             print("=====================")
@@ -57,7 +55,7 @@ class Store:
             for i in range(len(self.items)):
                 item = self.items[i]
                 print("%d. buy %s (%d)" % (i + 1, item.name, item.cost))
-                print("%d. leave" % len(self.items))
+            print("%d. leave" % (len(self.items) + 1))
             user_input = int(input("> "))
             if user_input == len(self.items):
                 break
