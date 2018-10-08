@@ -70,13 +70,13 @@ class Friend(Character):
         while True:
             print("Which item would you like to use?")
             for i in range(len(Friend.knapsack)):
-                print("%d. %s" % (i + 1, Friend.knapsack[i]))
+                print("%d. %s" % (i + 1, Friend.knapsack[i].name))
             user_input = input("> ")
             try:
                 choice = int(user_input)
             except:
                 pass
-            if choice > 0 and choice < len(Friend.knapsack):
+            if choice > 0 and choice <= len(Friend.knapsack):
                 return Friend.knapsack[choice - 1]
     def use_item(self, item, target):
         item.apply(target)
@@ -194,7 +194,7 @@ class Shadow(Enemy):
         self.health = 1
         self.coins = 2
     def defend(self, enemy, attack_power):
-        if random() > .1:
+        if random() > .2:
             attack_power = 0
         self.health -= attack_power
         print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))

@@ -7,21 +7,21 @@ class SuperTonic(StoreItem):
     cost = 5
     def apply(self, target):
         target.health += 10
-        print("%s's health increased by %d." % (target.name, target.health))
+        print("%s's health increased by 10." % (target.name))
 
 class Sword(StoreItem):
     name = "Sword"
     cost = 5
     def apply(self, target):
         target.power += 2
-        print("%s's power increased by %d." % (target.name, target.power))
+        print("%s's power increased by 2." % (target.name))
 
 class Armor(StoreItem):
     name = "Armor"
     cost = 5
     def apply(self, target):
         target.armor += 2
-        print("%s's armor increased by %d." % (target.name, target.armor))
+        print("%s's armor increased by 2." % (target.name))
 
 
 class Evade(StoreItem):
@@ -29,7 +29,7 @@ class Evade(StoreItem):
     cost = 5
     def apply(self, target):
         target.evade += 2
-        print("%s's evade increased by %d." % (target.name, target.evade))
+        print("%s's evade increased by 2." % (target.name))
 
 class Swap(StoreItem):
     name = "Swap"
@@ -57,9 +57,10 @@ class Store:
                 print("%d. buy %s (%d)" % (i + 1, item.name, item.cost))
             print("%d. leave" % (len(self.items) + 1))
             user_input = int(input("> "))
-            if user_input == len(self.items):
+            if user_input == len(self.items) + 1:
                 break
             else:
                 ItemToBuy = self.items[user_input - 1]
                 item = ItemToBuy()
             hero.buy(item)
+            print("%s bought a %s" % (hero.name, item.name))
