@@ -159,7 +159,9 @@ class Wizard(Enemy):
     def attack(self, enemy):
         # 10% of time Wizard attack is devastating
         if self.cast_spell():
-            enemy.health -= self.power * 3
+            enemy.defend(self, self.power * 3)
+        else:
+            enemy.defend(self, self.power)
     def cast_spell(self):
         return random() > .9
 
@@ -172,12 +174,16 @@ class Zombie(Enemy):
         self.power = 1
         self.coins = 10000
     def alive(self):
-        if self.health < 4:
-            self.eat_brains()
-        return True
+        return self.health > 0
     def eat_brains(self):
         print("brains...")
-        self.health = 4
+        return random() > .6;
+    def defend(self, enemy, attack_power):
+        self.health -= attack_power
+        if self.eat_brains():
+            enemy.defend(self, self.power)
+            self.health += self.power
+        print("The %s does %d damage to the %s." % (enemy.name, attack_power, self.name))
 
 # make a character called Shadow who has only 1 starting health 
 # but will only take damage about once out of every ten times he is attacked.
